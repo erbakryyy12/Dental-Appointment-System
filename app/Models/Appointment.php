@@ -36,11 +36,10 @@ class Appointment extends Model
     {
         return $this->belongsTo(User::class, 'userID');
     }
-
     
     public function dentist()
     {
         return $this->belongsTo(Dentist::class, 'dentistID');
-    
     }
+
 }

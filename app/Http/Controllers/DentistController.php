@@ -10,33 +10,55 @@ use Carbon\Carbon;
 
 class DentistController extends Controller
 {
+    
     // Display dashboard for the dentist
-    public function index(Request $request)
+    public function index()
     {
-        // Retrieve the authenticated user
-        $dentist = Auth::user();
+        // Get the current date
+        $currentDate = Carbon::now();
 
-        // Check the user is authenticated and is a dentist
-        if ($dentist && $dentist->userRole === 'Dentist') {
-            // Retrieve appointments associated with the dentist
-            $appointments = $dentist->appointments()
-                ->where('appointmentDate', '>=', now()->startOfWeek())
-                ->where('appointmentDate', '<=', now()->endOfWeek())
-                ->get();
+        // Get the start and end dates of the current week
+        $startOfWeek = $currentDate->startOfWeek()->format('Y-m-d');
+        $endOfWeek = $currentDate->endOfWeek()->format('Y-m-d');
 
-            // Return the view with the data
-            return view('dentist.index', [
-                'appointments' => $appointments,
-            ]);
-        } else {
-            // User is not authenticated as a dentist, redirect to login page or handle accordingly
-            return redirect()->route('login')->with('error', 'Please log in as a dentist to view your dashboard.');
-        }
+        // Retrieve the authenticated dentist's ID
+        $dentistID = Auth::user()->dentist->dentistID;
+
+        // Retrieve appointments for the current week
+        $appointments = Appointment::where('dentistID', $dentistID)
+            ->whereBetween('appointmentDate', [$startOfWeek, $endOfWeek])
+            ->orderBy('appointmentDate')
+            ->orderBy('appointmentTime')
+            ->get();
+
+            // Retrieve unique patients count
+        $uniquePatients = Appointment::where('dentistID', $dentistID)
+        ->distinct('userID')
+        ->count('userID');
+
+        // Retrieve total appointments count
+        $myAppointments = Appointment::where('dentistID', $dentistID)
+            ->count();
+
+        // Retrieve today's appointments count
+        $todayAppointments = Appointment::where('dentistID', $dentistID)
+            ->whereDate('appointmentDate', $currentDate->format('Y-m-d'))
+            ->count();
+
+        // Pass data to the view
+        return view('dentist.index', [
+            'appointments' => $appointments,
+            'uniquePatients' => $uniquePatients,
+            'myAppointments' => $myAppointments,
+            'todayAppointments' => $todayAppointments,
+        ]);
     }
+    
 
-    public function dentistApp()
+    public function dentistAppointment()
     {
-
+        
+        return view('dentist.dentistAppointment');
     }
 
     public function record()

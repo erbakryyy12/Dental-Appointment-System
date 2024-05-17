@@ -58,12 +58,15 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-
     public function appointments()
     {
         return $this->hasMany(Appointment::class, 'userID');
     }
 
-    
+    public function dentist()
+    {
+        return $this->hasOne(Dentist::class, 'userID');
+    }
+
 
 }

@@ -60,10 +60,10 @@ Route::get('/userProfile', [UserController::class, 'showProfile'])->middleware('
 Route::post('/user/userProfile/update', [UserController::class, 'updateProfile'])->middleware('auth')->name('user.profile.update');
 
 //DENTIST DASHBOARD
-Route::get('/dentist/dashboard', [DentistController::class, 'index'])->name('dentist.dashboard');
+Route::get('/dentist/index', [DentistController::class, 'index'])->name('dentist.index');
 
 //DENTIST APPOINTMENT
-Route::get('/dentist/dentistAppointment', [DentistController::class, 'dentistApp'])->name('dentist.dentistAppointment');
+Route::get('/dentist/dentistAppointment', [DentistController::class, 'dentistAppointment'])->name('dentist.dentistAppointment');
 
 //MEDICAL RECORDS
 Route::get('/dentist/medicalRecords', [DentistController::class, 'record'])->name('dentist.medicalRecords');

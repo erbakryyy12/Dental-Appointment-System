@@ -4,7 +4,7 @@
     Dashboard Dentist
 -->
 @extends('layouts.baseDentist')
-@section('Dentist.index')
+@section('content')
 
 <style>
     .header-title {
@@ -32,7 +32,36 @@
         </div>
     </div>
 
-    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-bg-light mb-3" style="max-width: 15rem;">
+                <!-- My Patients -->
+                <div class="card-header">My Patients</div>
+                <div class="card-body">
+                    <h2><b>{{ $uniquePatients }}</b></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-bg-light mb-3" style="max-width: 15rem;">
+                <!-- My Appointments -->
+                <div class="card-header">My Appointments</div>
+                <div class="card-body">
+                    <h2><b>{{ $myAppointments }}</b></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-bg-light mb-3" style="max-width: 15rem;">
+                <!-- Today appointments  -->
+                <div class="card-header">Today appointments</div>
+                <div class="card-body">
+                    <h2><b>{{ $todayAppointments }}</b></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <br>
     <div class="col-12">

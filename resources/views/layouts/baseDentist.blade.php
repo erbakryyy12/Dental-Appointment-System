@@ -46,7 +46,7 @@
 <body>
     <div class="wrapper">
         <nav id="sidebar" class="sidebar">
-            <a class="sidebar-brand" style="background: #B2F1B8;" href="{{ route('dentist.dashboard') }}">
+            <a class="sidebar-brand" style="background: #B2F1B8;" href="{{ route('dentist.index') }}">
                 <img src="/img/dental logo.png" >
             </a>
             <div class="sidebar-content">
@@ -63,7 +63,7 @@
                 @endif
                 <ul class="sidebar-nav">
                     <li class="sidebar-item">
-					<a class="sidebar-link" href="{{ route('dentist.dashboard') }}"> 
+					<a class="sidebar-link" href="{{ route('dentist.index') }}"> 
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-house-door-fill" viewBox="0 0 16 16">
                                 <path
@@ -101,10 +101,7 @@
         </nav>
         <div class="main">
             {{-- Yield --}}
-            @yield('Dentist.index')
-            @yield('Dentist.dentistAppointment')
-            @yield('Dentist.medicalRecords')
-            @yield('Dentist.dentistProfile')
+            @yield('content')
         </div>
         <footer class="footer">
             <div class="container-fluid">
