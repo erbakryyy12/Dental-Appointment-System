@@ -115,7 +115,13 @@ class DentistController extends Controller
         // Retrieve the authenticated user
         $dentistID = Auth::user()->dentist->dentistID;
 
-        
+        // Retrieve all appointments for the authenticated dentist
+        $appointments = Appointment::where('dentistID', $dentistID)->get();
+
+        // Pass the appointments to the view
+        return view('dentist.medicalRecords', [
+            'appointments' => $appointments,
+        ]);
 
 
     }
