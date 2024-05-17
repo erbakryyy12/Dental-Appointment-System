@@ -64,6 +64,9 @@ Route::get('/dentist/index', [DentistController::class, 'index'])->name('dentist
 
 //DENTIST APPOINTMENT
 Route::get('/dentist/dentistAppointment', [DentistController::class, 'dentistAppointment'])->name('dentist.dentistAppointment');
+Route::get('/dentist/appointment/complete/{id}', [DentistController::class, 'markComplete'])->name('dentist.appointment.complete');
+Route::put('/dentist/appointment/update/{id}', [DentistController::class, 'update'])->name('dentist.appointment.update');
+
 
 //MEDICAL RECORDS
 Route::get('/dentist/medicalRecords', [DentistController::class, 'record'])->name('dentist.medicalRecords');

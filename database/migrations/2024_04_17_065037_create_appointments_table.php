@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('appointmentDate');
             $table->json('appointmentTime'); // Changed to JSON data type
             $table->string('medicalPrescription'); 
+            $table->string('status');
             $table->timestamps();
         });
     }

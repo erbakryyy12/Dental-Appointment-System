@@ -5,7 +5,7 @@
 -->
 
 @extends('layouts.baseDentist')
-@section('Dentist.dentistProfile')
+@section('content')
 
 <style>
     .header-title {

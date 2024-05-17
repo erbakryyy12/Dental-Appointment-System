@@ -57,12 +57,66 @@ class DentistController extends Controller
 
     public function dentistAppointment()
     {
-        
-        return view('dentist.dentistAppointment');
+        // Retrieve the authenticated dentist's ID
+        $dentistID = Auth::user()->dentist->dentistID;
+
+        $appointments = Appointment::where('dentistID', $dentistID)
+                                   ->where('appointmentDate', '>=', now()) // Fetch upcoming appointments
+                                   ->orderBy('appointmentDate', 'asc')
+                                   ->get();
+
+        return view('dentist.dentistAppointment', [
+            'appointments' => $appointments,
+        ]);
     }
 
-    public function record()
+    public function update(Request $request, $id) 
     {
+        // Validate the request data
+        $request->validate([
+            'medicalPrescription' => 'required|string|max:255',
+        ]);
+
+        try 
+        {
+            // Find the appointment
+            $appointment = Appointment::findOrFail($id);
+
+            // Update the medical prescription
+            $appointment->medicalPrescription = $request->input('medicalPrescription');
+            $appointment->save();
+
+            // Redirect back with success message
+            return redirect()->back()->with('success', 'Medical prescription updated successfully.');
+
+        } 
+        catch (\Exception $e) 
+        {
+            // Redirect back with error message if something goes wrong
+            return redirect()->back()->with('error', 'Failed to update medical prescription. Please try again.');
+        }
+    }
+
+    //mark the appointment as complete
+    public function markComplete($id)
+    {
+        $appointment = Appointment::find($id);
+        if ($appointment && $appointment->dentist_id == Auth::id()) {
+            $appointment->status = 'complete'; 
+            $appointment->save();
+            return redirect()->route('dentist.dentistAppointment')->with('success', 'Appointment marked as complete.');
+        }
+        return redirect()->route('dentist.dentistAppointment')->with('error', 'Appointment not found or unauthorized.');
+    }
+
+    //view medical records
+    public function record(Request $request)
+    {
+        // Retrieve the authenticated user
+        $dentistID = Auth::user()->dentist->dentistID;
+
+        
+
 
     }
 

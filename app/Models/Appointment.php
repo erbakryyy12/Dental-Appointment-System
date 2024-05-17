@@ -18,6 +18,7 @@ class Appointment extends Model
         'appointmentDate',
         'appointmentTime',
         'medicalPrescription',
+        'status',
     ];
     
 

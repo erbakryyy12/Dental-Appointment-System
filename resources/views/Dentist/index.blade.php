@@ -67,7 +67,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3>Your Upcoming Appointments for This Week</h3>
+                <h3>Your Appointments for This Week</h3>
             </div>
             
             <div class="card-body">
