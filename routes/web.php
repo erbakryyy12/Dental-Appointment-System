@@ -11,11 +11,8 @@ use App\Http\Controllers\Auth\DentistLoginController;
 use Illuminate\Support\Facades\Auth;
 
 
-
-Route::get('welcome', function () {
-    return view('welcome');
-})->name('welcome');
-
+//WELCOME
+Route::get('welcome', function () {return view('welcome');})->name('welcome');
 
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -31,15 +28,19 @@ Route::post('/login', [LoginController::class, 'loginPost'])->name('login');
 Route::get('/dentistLogin', [DentistLoginController::class, 'login'])->name('dentistLogin');
 Route::post('/dentistLogin', [DentistLoginController::class, 'loginPost'])->name('dentistLogin');
 
+//LOGIN - ADMIN
+Route::get('/adminLogin', [DentistLoginController::class, 'login'])->name('adminLogin');
+
+
 //REGISTER
 Route::get('/register', 'App\Http\Controllers\Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('/register', 'App\Http\Controllers\Auth\RegisterController@register');
 
-//DASHBOARD
+//USER DASHBOARD
 Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
 
 
-//APPOINTMENT - User
+//APPOINTMENT 
 Route::get('/user/appointment/{dentistId}', [AppointmentController::class, 'makeAppointment'])->name('user.appointment');
 Route::post('/appointment/store', [AppointmentController::class, 'store'])->name('appointment.store');
 
@@ -55,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/appointments/{appointmentId}', [AppointmentController::class, 'update'])->name('appointment.update');
 });
 
-// PROFILE - User
+// USER PROFILE 
 Route::get('/userProfile', [UserController::class, 'showProfile'])->middleware('auth')->name('user.userProfile');
 Route::post('/user/userProfile/update', [UserController::class, 'updateProfile'])->middleware('auth')->name('user.profile.update');
 
@@ -67,11 +68,10 @@ Route::get('/dentist/dentistAppointment', [DentistController::class, 'dentistApp
 Route::get('/dentist/appointment/complete/{id}', [DentistController::class, 'markComplete'])->name('dentist.appointment.complete');
 Route::put('/dentist/appointment/update/{id}', [DentistController::class, 'update'])->name('dentist.appointment.update');
 
-
 //MEDICAL RECORDS
 Route::get('/dentist/medicalRecords', [DentistController::class, 'record'])->name('dentist.medicalRecords');
 
-
-// PROFILE - Dentist
+// DENTIST PROFILE 
 Route::get('/profile', [DentistController::class, 'showProfile'])->middleware('auth')->name('dentist.dentistProfile');
 Route::post('/dentist/profile/update', [DentistController::class, 'updateProfile'])->middleware('auth')->name('dentist.profile.update');
+
