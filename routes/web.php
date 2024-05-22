@@ -8,6 +8,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\DentistLoginController;
+use App\Http\Controllers\Auth\AdminLoginController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -29,8 +30,8 @@ Route::get('/dentistLogin', [DentistLoginController::class, 'login'])->name('den
 Route::post('/dentistLogin', [DentistLoginController::class, 'loginPost'])->name('dentistLogin');
 
 //LOGIN - ADMIN
-Route::get('/adminLogin', [DentistLoginController::class, 'login'])->name('adminLogin');
-
+Route::get('/adminLogin', [AdminLoginController::class, 'login'])->name('adminLogin');
+Route::post('/adminLogin', [AdminLoginController::class, 'loginPost'])->name('adminLogin');
 
 //REGISTER
 Route::get('/register', 'App\Http\Controllers\Auth\RegisterController@showRegistrationForm')->name('register');
@@ -74,4 +75,8 @@ Route::get('/dentist/medicalRecords', [DentistController::class, 'record'])->nam
 // DENTIST PROFILE 
 Route::get('/profile', [DentistController::class, 'showProfile'])->middleware('auth')->name('dentist.dentistProfile');
 Route::post('/dentist/profile/update', [DentistController::class, 'updateProfile'])->middleware('auth')->name('dentist.profile.update');
+
+
+//ADMIN DASHBOARD
+Route::get('/admin/dashboard', [UserController::class, 'index'])->name('admin.dashboard');
 

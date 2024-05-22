@@ -14,7 +14,7 @@ class DentistLoginController extends Controller
 
     public function login()
     {
-        return view('auth.dentistLogin');
+        return view ('auth.dentistLogin');
     }
 
     //dentist login

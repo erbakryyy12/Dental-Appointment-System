@@ -42,9 +42,9 @@
                     @csrf
 
                     <div class="row mb-3">
-                        <label for="userEmail" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                        <label for="adminEmail" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
                         <div class="col-md-6">
-                        <input id="userEmail" type="email" class="form-control @error('userEmail') is-invalid @enderror" name="userEmail" required autocomplete="email" autofocus>
+                        <input id="adminEmail" type="email" class="form-control @error('adminEmail') is-invalid @enderror" name="adminEmail" required autocomplete="email" autofocus>
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

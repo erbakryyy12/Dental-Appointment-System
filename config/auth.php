@@ -46,6 +46,12 @@ return [
             'driver' => 'session',
             'provider' => 'dentists',
         ],
+
+        //guard for admin
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
     ],
     
 
@@ -74,9 +80,15 @@ return [
 
         // Add a new provider for dentists
         'dentists' => [
-        'driver' => 'eloquent',
-        'model' => App\Models\Dentist::class,
-    ],
+            'driver' => 'eloquent',
+            'model' => App\Models\Dentist::class,
+        ],
+
+        // provider for admins
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
     ],
 
     /*
@@ -105,6 +117,14 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+
+        'password_timeout' => 10800,
     ],
 
     /*
