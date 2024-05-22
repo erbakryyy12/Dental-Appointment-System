@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DentistController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AppointmentController;
@@ -78,5 +79,12 @@ Route::post('/dentist/profile/update', [DentistController::class, 'updateProfile
 
 
 //ADMIN DASHBOARD
-Route::get('/admin/dashboard', [UserController::class, 'index'])->name('admin.dashboard');
+Route::get('/admin/index', [AdminController::class, 'index'])->name('admin.index');
 
+//ADMIN DOCTOR
+
+
+//ADMIN PATIENT
+
+
+//ADMIN REPORT

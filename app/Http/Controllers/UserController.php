@@ -15,12 +15,13 @@ class UserController extends Controller
         // Retrieve the list of dentists from the database
         $dentists = Dentist::all();
 
+        //retrieve all users from the database
+        $users = User::all();
         
         // Pass the $dentists variable to the view
         return view('user.index', ['dentists' => $dentists]);
 
-        //retrieve all users from the database
-        $users = User::all();
+        
         
     }
 

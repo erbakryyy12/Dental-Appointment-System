@@ -26,7 +26,7 @@ class AdminLoginController extends Controller
     
         // Attempt authentication using the 'admin' guard
         if (Auth::guard('admin')->attempt($credentials)) {
-            return redirect('/admin/dashboard')->with('success', 'Successfully logged in.');
+            return redirect('/admin/index')->with('success', 'Successfully logged in.');
         }
     
         // Authentication failed, redirect back with error message
