@@ -32,10 +32,51 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-bg-light mb-3" style="max-width: 12rem;">
+                <!-- Dentist -->
+                <div class="card-header">Dentists</div>
+                <div class="card-body">
+                    <h2><b>{{ $numOfDentist }}</b></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-light mb-3" style="max-width: 12rem;">
+                <!-- Patients -->
+                <div class="card-header">Patients</div>
+                <div class="card-body">
+                    <h2><b>{{ $numOfPatient }}</b></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-light mb-3" style="max-width: 12rem;">
+                <!-- Today appointments  -->
+                <div class="card-header">Today appointments</div>
+                <div class="card-body">
+                    <h2><b>{{ $todayAppointments }}</b></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-light mb-3" style="max-width: 12rem;">
+                <!-- Total appointments  -->
+                <div class="card-header">All appointments</div>
+                <div class="card-body">
+                    <h2><b>{{ $allAppointments }}</b></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3>Upcoming Appointments for This Week</h3>
+                <h3>Appointments for This Week</h3>
             </div>
             
             <div class="card-body">

@@ -52,7 +52,7 @@
 
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="submit" class="btn btn-primary" style="background-color: #B2EEF1;border-color: #B2EEF1; color: #000;">Save Changes</button>
                         </div>
                     </form>
 

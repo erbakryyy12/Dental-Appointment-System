@@ -46,7 +46,7 @@
                         <tr>
                                 <th>No.</th>
                                 <th>Patient Name</th>
-                                <th>Schedule Date</th>
+                                <th>Appointment Date</th>
                                 <th>Time</th>
                                 <th>Action</th>
                         </tr>
@@ -170,8 +170,8 @@
                                                     <input type="text" class="form-control" id="medicalPrescription" name="medicalPrescription" value="{{ $appointment->medicalPrescription }}">
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-info" name="updateSale">Save</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #BBBBBB;border-color: #BBBBBB;color: #000;" >Close</button>
+                                                    <button type="submit" class="btn btn-info" name="updateAppointment" style="background-color: #B2F1B8;border-color: #B2F1B8;color: #000;" >Save</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -200,7 +200,7 @@
         // Datatables with Buttons
         var datatablesButtons = $('#datatables-buttons').DataTable({
             lengthChange: !1,
-            buttons: ["copy", "print"],
+            
             responsive: true
         });
         datatablesButtons.buttons().container().appendTo("#datatables-buttons_wrapper .col-md-6:eq(0)");

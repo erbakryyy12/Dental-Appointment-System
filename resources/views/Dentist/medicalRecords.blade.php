@@ -44,7 +44,7 @@
                             <tr>
                                     <th>No.</th>
                                     <th>Patient Name</th>
-                                    <th>Schedule Date</th>
+                                    <th>Appointment Date</th>
                                     <th>Time</th>
                                     <th>Action</th>
                             </tr>
@@ -115,7 +115,7 @@
                                                             <p class="fw-bolder">{{ $appointment->medicalPrescription }}</p>
                                                         </div>
                                                     </div>
-                                                    <button type="button" class="btn btn-outline-primary justify-content-center" data-bs-dismiss="modal">Back</button>                                                                    
+                                                    <button type="button" class="btn btn-outline-primary justify-content-center" data-bs-dismiss="modal" style="background-color: #B2F1B8;border-color: #B2F1B8;color: #000;" >Back</button>                                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -140,7 +140,7 @@
         // Datatables with Buttons
         var datatablesButtons = $('#datatables-buttons').DataTable({
             lengthChange: !1,
-            buttons: ["copy", "print"],
+            
             responsive: true
         });
         datatablesButtons.buttons().container().appendTo("#datatables-buttons_wrapper .col-md-6:eq(0)");

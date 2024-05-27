@@ -27,7 +27,7 @@ class DentistLoginController extends Controller
     
         // Attempt authentication
         if (Auth::attempt($credentials)) {
-            return redirect('/dentist/dashboard')->with('success', 'Successfully logged in.');
+            return redirect('/dentist/index')->with('success', 'Successfully logged in.');
         }
     
         // Authentication failed, redirect back with error message

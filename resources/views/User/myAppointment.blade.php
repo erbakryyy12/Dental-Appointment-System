@@ -80,7 +80,7 @@
                                     <!-- Buttons for reschedule and cancel -->
                                     <form action="{{ route('user.reschedule', ['appointmentId' => $appointment->appointmentID]) }}" method="GET">
                                         @csrf
-                                        <button type="submit" class="btn btn-primary">Reschedule</button>
+                                        <button type="submit" class="btn btn-primary" style="background-color: #B2EEF1;border-color: #B2EEF1;color: #000;" >Reschedule</button>
                                     </form>
                                 </div>
                         </div>

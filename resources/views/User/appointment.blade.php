@@ -60,7 +60,7 @@
                                 <input type="hidden" id="selectedDate" name="selectedDate">
                                 <input type="hidden" id="selectedTime" name="selectedTime">
                                 <br>
-                                <button type="submit" name="confirmAppointment" value="1" class="btn btn-primary">Confirm Appointment</button>
+                                <button type="submit" name="confirmAppointment" value="1" class="btn btn-primary" style="background-color: #B2EEF1;border-color: #B2EEF1;color: #000;">Confirm Appointment</button>
                             </form>
 
                         </div>

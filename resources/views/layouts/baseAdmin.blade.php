@@ -34,6 +34,14 @@
 			margin-top: 5px; 
 		}
 
+        .sidebar-user {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+
+
 
     </style>
     <script src="{{ asset('js/app.js') }}"></script>
@@ -46,21 +54,19 @@
 <body>
     <div class="wrapper">
         <nav id="sidebar" class="sidebar">
-            <a class="sidebar-brand" style="background: #FFF171;" href="{{ route('dentist.index') }}">
+            <a class="sidebar-brand" style="background: #FFF171;" href="{{ route('admin.index') }}">
                 <img src="/img/dental logo.png" >
             </a>
             <div class="sidebar-content">
-                @if(auth()->check())
-                    <div class="sidebar-user">
-                        <span class="d-sm-inline d-none">{{ auth()->admin()->adminEmail }}</span><br>
-                        <span class="d-sm-inline d-none">{{ __('Admin') }}</span>
-                        <br>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-primary btn-sm">{{ __('Logout') }}</button>
-                        </form>
-                    </div>
-                @endif
+                
+                <div class="sidebar-user">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-primary justify-content-center" style="background-color: #FFF171;border-color: #FFF171; color: #000;" >{{ __('Logout') }}</button>
+                    </form>
+                </div>
+                
+                    
                 <ul class="sidebar-nav">
                     <li class="sidebar-item">
 					<a class="sidebar-link" href="{{ route('admin.index') }}"> 
@@ -72,14 +78,14 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="">
+                        <a class="sidebar-link" href="{{ route('admin.doctor') }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
                         </svg><span class="align-middle">Doctor</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                    <a class="sidebar-link" href="">
+                    <a class="sidebar-link" href="{{ route('admin.patient') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
                                 <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
                             </svg>
@@ -87,7 +93,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                    <a class="sidebar-link" href="">
+                    <a class="sidebar-link" href="{{ route('admin.report') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-bar-graph-fill" viewBox="0 0 16 16">
                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1m.5 10v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5m-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5z"/>
                             </svg>
@@ -100,6 +106,7 @@
         <div class="main">
             {{-- Yield --}}
             @yield('content')
+
         </div>
         <footer class="footer">
             <div class="container-fluid">

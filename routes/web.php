@@ -81,10 +81,12 @@ Route::post('/dentist/profile/update', [DentistController::class, 'updateProfile
 //ADMIN DASHBOARD
 Route::get('/admin/index', [AdminController::class, 'index'])->name('admin.index');
 
-//ADMIN DOCTOR
+//ADMIN: DOCTOR
+Route::get('/admin/doctor', [AdminController::class, 'dentistList'])->name('admin.doctor');
+Route::put('/admin/doctor/update/{id}', [AdminController::class, 'update'])->name('admin.doctor.update');
 
+//ADMIN: PATIENT
+Route::get('/admin/patient', [AdminController::class, 'patientList'])->name('admin.patient');
 
-//ADMIN PATIENT
-
-
-//ADMIN REPORT
+//ADMIN: REPORT
+Route::get('/admin/report', [AdminController::class, 'report'])->name('admin.report');

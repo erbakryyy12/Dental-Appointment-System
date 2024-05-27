@@ -50,7 +50,7 @@
                                 <p class="card-text">{{ $dentist->dentistSpeciality }}</p>
                                 <form action="{{ route('user.appointment', ['dentistId' => $dentist->dentistID]) }}" method="GET">
                                     @csrf
-                                    <button type="submit" class="btn btn-primary">Make Appointment</button>
+                                    <button type="submit" class="btn btn-primary" style="background-color: #B2EEF1;border-color: #B2EEF1;color: #000;">Make Appointment</button>
                                 </form>
                             </div>
                         </div>
