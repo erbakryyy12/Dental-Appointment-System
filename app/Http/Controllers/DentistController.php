@@ -27,8 +27,10 @@ class DentistController extends Controller
         // Retrieve appointments for the current week
         $appointments = Appointment::where('dentistID', $dentistID)
             ->whereBetween('appointmentDate', [$startOfWeek, $endOfWeek])
+            ->where('status', 'Pending') // Only include appointments with Pending status
             ->orderBy('appointmentDate')
             ->orderBy('appointmentTime')
+            
             ->get();
 
             // Retrieve unique patients count
@@ -62,6 +64,7 @@ class DentistController extends Controller
 
         $appointments = Appointment::where('dentistID', $dentistID)
                                    ->where('appointmentDate', '>=', now()) // Fetch upcoming appointments
+                                   ->where('status', 'Pending') // Only include appointments with Pending status
                                    ->orderBy('appointmentDate', 'asc')
                                    ->get();
 
@@ -98,16 +101,15 @@ class DentistController extends Controller
     }
 
     //mark the appointment as complete
-    public function markComplete($id)
+    public function complete($appointmentId)
     {
-        $appointment = Appointment::find($id);
-        if ($appointment && $appointment->dentist_id == Auth::id()) {
-            $appointment->status = 'complete'; 
-            $appointment->save();
-            return redirect()->route('dentist.dentistAppointment')->with('success', 'Appointment marked as complete.');
-        }
-        return redirect()->route('dentist.dentistAppointment')->with('error', 'Appointment not found or unauthorized.');
+        $appointment = Appointment::findOrFail($appointmentId);
+        $appointment->status = 'Completed';
+        $appointment->save();
+
+        return redirect()->back()->with('success', 'Appointment marked as complete successfully.');
     }
+
 
     //view medical records
     public function record(Request $request)

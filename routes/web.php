@@ -52,11 +52,12 @@ Route::get('/user/myAppointment', [AppointmentController::class, 'index'])->name
 Route::get('/user/myAppointment', [AppointmentController::class, 'myAppointment'])->name('user.myAppointment');
 
 
-//RESCHEDULE
+//RESCHEDULE APPOINTMENT
 Route::get('/user/reschedule/{appointmentId}', [AppointmentController::class, 'reschedule'])->name('user.reschedule');
-
-// Route to handle the update request
 Route::put('/appointment/{appointmentId}/update', [AppointmentController::class, 'update'])->name('appointment.update');
+
+//CANCEL APPOINTMENT
+Route::post('/appointment/{appointmentId}/cancel', [AppointmentController::class, 'cancel'])->name('appointment.cancel');
 
 
 // USER PROFILE 
@@ -68,7 +69,7 @@ Route::get('/dentist/index', [DentistController::class, 'index'])->name('dentist
 
 //DENTIST APPOINTMENT
 Route::get('/dentist/dentistAppointment', [DentistController::class, 'dentistAppointment'])->name('dentist.dentistAppointment');
-Route::get('/dentist/appointment/complete/{id}', [DentistController::class, 'markComplete'])->name('dentist.appointment.complete');
+Route::get('/dentist/appointment/complete/{appointmentId}', [DentistController::class, 'complete'])->name('dentist.appointment.complete');
 Route::put('/dentist/appointment/update/{id}', [DentistController::class, 'update'])->name('dentist.appointment.update');
 
 //MEDICAL RECORDS

@@ -83,10 +83,17 @@ class AppointmentController extends Controller
     {
         $upcomingAppointment = Appointment::where('appointmentDate', '>=', now()->format('d-m-Y'))
             ->where('userID', auth()->id())
+            ->where('status', '!=', 'Cancelled') // Exclude canceled appointments
             ->get();
+
+        $cancelledAppointments = Appointment::where('userID', auth()->id())
+            ->where('status', 'Cancelled')
+            ->get(); 
 
         return view('user.myAppointment', [
             'upcomingAppointment' => $upcomingAppointment,
+            'cancelledAppointments' => $cancelledAppointments,
+
         ]);
     }
     
@@ -145,6 +152,29 @@ class AppointmentController extends Controller
         return redirect()->route('user.myAppointment')->with('success', 'Appointment rescheduled successfully.');
     }
 
+    //cancel the appointment
+    public function cancel($appointmentId)
+    {
+        $appointment = Appointment::findOrFail($appointmentId);
+        $appointment->status = 'Cancelled';
+        $appointment->save();
+
+        return redirect()->back()->with('success', 'Appointment cancelled successfully.');
+    }
+
+    public function showAppointments()
+    {
+        $user = Auth::user();
+        $upcomingAppointment = $user->appointments()->where('status', 'Pending')->orWhere('status', 'Scheduled')->get();
+        $cancelledAppointments = $user->appointments()->where('status', 'Cancelled')->get();
+        $completedAppointments = $user->appointments()->where('status', 'Completed')->get();
+
+        return view('user.myAppointment',[
+            'upcomingAppointment', 
+            'cancelledAppointments', 
+            'completedAppointments',
+        ]);
+    }
 
 
 }

@@ -36,6 +36,7 @@
     .appointment-details p {
         margin: 0; /* Remove margin from paragraphs */
     }
+    
 </style>
 
 <div class="container-fluid">
@@ -73,15 +74,23 @@
                         <div class="appointment-list" data-appointment-id="{{ $appointment->id }}">
                                 <img src="/img/dentist female.jpeg" class="card-img-top img-fluid" alt="Dentist Image" style="width: 100px; height: 100px;">
                                 <div class="appointment-details">
+                                <span class="badge rounded-pill bg-primary status-badge">{{ $appointment->status }}</span> 
                                     <h5>Dentist: DR. {{ $appointment->dentist->user->userName }} </h5>
                                     <p>Date: {{ $appointment->appointmentDate }}</p>
                                     <p>Time: {{ $appointment->appointmentTime }}</p>
                                     <p>Patient: {{ $appointment->user->userName }}</p>
                                     <!-- Buttons for reschedule and cancel -->
-                                    <form action="{{ route('user.reschedule', ['appointmentId' => $appointment->appointmentID]) }}" method="GET">
-                                        @csrf
-                                        <button type="submit" class="btn btn-primary" style="background-color: #B2EEF1;border-color: #B2EEF1;color: #000;" >Reschedule</button>
-                                    </form>
+                                    <div class="btn-group" role="group" aria-label="Reschedule and Cancel">
+                                        <form action="{{ route('user.reschedule', ['appointmentId' => $appointment->appointmentID]) }}" method="GET">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary" style="background-color: #B2EEF1;border-color: #B2EEF1;color: #000;">Reschedule</button>
+                                        </form>
+                                        <div style="margin-left: 10px;"></div>
+                                        <form action="{{ route('appointment.cancel', ['appointmentId' => $appointment->appointmentID]) }}" method="POST" class="cancel-form">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary btn-cancel" style="background-color: #FF5050;border-color: #FF5050;color: #000;">Cancel</button>
+                                        </form>
+                                    </div>
                                 </div>
                         </div>
                         @endforeach
@@ -89,10 +98,23 @@
                     <!-- Completed Appointments -->
                     <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
                         <!-- Display completed appointments here -->
+
                     </div>
                     <!-- Cancelled Appointments -->
                     <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled-tab">
                         <!-- Display cancelled appointments here -->
+                        @foreach ($cancelledAppointments as $appointment)
+                        <div class="appointment-list" data-appointment-id="{{ $appointment->id }}">
+                            <span class="badge rounded-pill bg-warning status-badge">{{ $appointment->status }}</span>
+                            <img src="/img/dentist female.jpeg" class="card-img-top img-fluid" alt="Dentist Image" style="width: 100px; height: 100px;">
+                            <div class="appointment-details">
+                                <h5>Dentist: DR. {{ $appointment->dentist->user->userName }}</h5>
+                                <p>Date: {{ $appointment->appointmentDate }}</p>
+                                <p>Time: {{ $appointment->appointmentTime }}</p>
+                                <p>Patient: {{ $appointment->user->userName }}</p>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -104,29 +126,32 @@
 
 @section('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 
 $(document).ready(function() {
     
     // Cancel button click event listener
     $('.btn-cancel').click(function(e) {
-        e.preventDefault();
+        e.preventDefault(); // Prevent the default form submission
 
-        var appointmentId = $(this).closest('.appointment-list').data('appointment-id');
+        var $form = $(this).closest('.cancel-form'); // Get the closest form
 
+        // Display the confirmation dialog
         if (confirm('Are you sure you want to cancel this appointment?')) {
+            // Submit the form via AJAX
             $.ajax({
-                url: '/appointments/' + appointmentId,
-                method: 'DELETE',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
+                url: $form.attr('action'),
+                method: $form.attr('method'),
+                data: $form.serialize(),
                 success: function(response) {
-                    alert(response.message);
-                    location.reload();
+                    // If the cancellation is successful, remove the appointment from the UI
+                    $form.closest('.appointment-list').remove();
+                    alert('Appointment cancelled successfully.');
                 },
                 error: function(xhr, status, error) {
-                    alert(xhr.responseJSON.message);
+                    // If there's an error, display an alert with the error message
+                    alert('Error: ' + xhr.responseText);
                 }
             });
         }
