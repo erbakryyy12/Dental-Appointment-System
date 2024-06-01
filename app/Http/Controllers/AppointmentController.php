@@ -24,7 +24,7 @@ class AppointmentController extends Controller
     public function makeAppointment($dentistId)
     {
         // Retrieve the selected dentist from the database along with their associated user
-     $selectedDentist = Dentist::with('user')->findOrFail($dentistId);
+        $selectedDentist = Dentist::with('user')->findOrFail($dentistId);
      
         // Retrieve existing appointment times for the selected dentist
         $existingAppointments = Appointment::where('dentistID', $dentistId)->pluck('appointmentTime')->toArray();
@@ -83,8 +83,12 @@ class AppointmentController extends Controller
     {
         $upcomingAppointment = Appointment::where('appointmentDate', '>=', now()->format('d-m-Y'))
             ->where('userID', auth()->id())
-            ->where('status', '!=', 'Cancelled') // Exclude canceled appointments
+            ->whereNotIn('status', ['Cancelled','Completed']) // Exclude cancelled and completed appointments
             ->get();
+
+        $completedAppointment = Appointment::where('userID', auth()->id())
+            ->where('status', 'Completed')
+            ->get(); 
 
         $cancelledAppointments = Appointment::where('userID', auth()->id())
             ->where('status', 'Cancelled')
@@ -93,7 +97,7 @@ class AppointmentController extends Controller
         return view('user.myAppointment', [
             'upcomingAppointment' => $upcomingAppointment,
             'cancelledAppointments' => $cancelledAppointments,
-
+            'completedAppointment' => $completedAppointment,
         ]);
     }
     

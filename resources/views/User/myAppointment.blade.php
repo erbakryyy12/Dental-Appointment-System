@@ -98,7 +98,19 @@
                     <!-- Completed Appointments -->
                     <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
                         <!-- Display completed appointments here -->
-
+                        @foreach ($completedAppointment as $appointment)
+                        <div class="appointment-list" data-appointment-id="{{ $appointment->id }}">
+                            <span class="badge rounded-pill bg-success status-badge">{{ $appointment->status }}</span>
+                            <img src="/img/dentist female.jpeg" class="card-img-top img-fluid" alt="Dentist Image" style="width: 100px; height: 100px;">
+                            <div class="appointment-details">
+                                <h5>Dentist: DR. {{ $appointment->dentist->user->userName }}</h5>
+                                <p>Date: {{ $appointment->appointmentDate }}</p>
+                                <p>Time: {{ $appointment->appointmentTime }}</p>
+                                <p>Patient: {{ $appointment->user->userName }}</p>
+                                <p>Medical Prescription: {{ $appointment->medicalPrescription }}</p>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
                     <!-- Cancelled Appointments -->
                     <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled-tab">
