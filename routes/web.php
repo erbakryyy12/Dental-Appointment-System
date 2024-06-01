@@ -54,9 +54,10 @@ Route::get('/user/myAppointment', [AppointmentController::class, 'myAppointment'
 
 //RESCHEDULE
 Route::get('/user/reschedule/{appointmentId}', [AppointmentController::class, 'reschedule'])->name('user.reschedule');
-Route::middleware(['auth'])->group(function () {
-    Route::put('/appointments/{appointmentId}', [AppointmentController::class, 'update'])->name('appointment.update');
-});
+
+// Route to handle the update request
+Route::put('/appointment/{appointmentId}/update', [AppointmentController::class, 'update'])->name('appointment.update');
+
 
 // USER PROFILE 
 Route::get('/userProfile', [UserController::class, 'showProfile'])->middleware('auth')->name('user.userProfile');

@@ -15,7 +15,12 @@ class Dentist extends Model
     
     public function user()
     {
-        return $this->belongsTo(User::class, 'userID'); 
+        return $this->belongsTo(User::class, 'userID');
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'dentistID');
     }
 }
 

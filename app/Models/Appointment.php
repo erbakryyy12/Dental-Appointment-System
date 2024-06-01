@@ -33,14 +33,13 @@ class Appointment extends Model
         'appointmentTime' => 'string', 
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'userID');
-    }
-    
     public function dentist()
     {
         return $this->belongsTo(Dentist::class, 'dentistID');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'userID');
+    }
 }

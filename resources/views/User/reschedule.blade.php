@@ -29,16 +29,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <!-- Dentist Card -->
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="/img/dentist_female.jpeg" class="card-img-top" alt="Dentist Image">
-                            <div class="card-body">
-                                <h5 class="card-title">DR.{{ $appointment->dentistID?->user?->userName }}</h5>
-                                <p class="card-text">{{ $appointment->dentistID?->dentistSpeciality }}</p>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <!-- Calendar and Time Slot -->
                     <div class="col-md-6 mb-4">
                         <h5>Select New Appointment Date</h5>
@@ -47,7 +38,7 @@
                         <h5>Select New Time Slot</h5>
                         <div id="appointmentTime">
                             @foreach($availableTimeSlots as $timeSlot)
-                                <button type="button" class="appointmentTime available" data-time="{{ $timeSlot }}">{{ $timeSlot }}</button>
+                                <button class="appointmentTime available" data-time="{{ $timeSlot }}">{{ $timeSlot }}</button>
                             @endforeach
                         </div>
                         <form method="POST" action="{{ route('appointment.update', ['appointmentId' => $appointment->appointmentID]) }}">
@@ -55,18 +46,13 @@
                             @method('PUT')
 
                             <!-- Hidden input fields for appointment data -->
-                            <input type="hidden" name="userID" value="{{ $appointment->userID }}">
-                            <input type="hidden" name="dentistID" value="{{ $appointment->dentistID }}">
-                            <input type="hidden" name="selectedDate" value="{{ old('selectedDate', $appointment->appointmentDate) }}">
-
-                        
-
-
-                            <!-- Submit button -->
-                            <button type="submit" class="btn btn-primary">Confirm Reschedule</button>
+                            <input type="hidden" id="userID" name="userID" value="{{ Auth::id() }}">
+                            <input type="hidden" id="dentistID" name="dentistID" value="{{ $appointment->dentistID }}">
+                            <input type="hidden" id="selectedDate" name="selectedDate" value="{{ old('selectedDate', $appointment->appointmentDate) }}">
+                            <input type="hidden" id="selectedTime" name="selectedTime" value="{{ old('selectedTime', $appointment->appointmentTime) }}">
+                            <br>
+                            <button type="submit" name="confirmAppointment" value="1" class="btn btn-primary" style="background-color: #B2EEF1;border-color: #B2EEF1;color: #000;">Confirm Reschedule</button>
                         </form>
-
-
                     </div>
                 </div>
             </div>

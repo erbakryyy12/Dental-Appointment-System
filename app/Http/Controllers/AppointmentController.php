@@ -67,6 +67,7 @@ class AppointmentController extends Controller
             'appointmentDate' => $request->selectedDate,
             'appointmentTime' => $request->selectedTime, 
             'medicalPrescription' => '', // Assuming medicalPrescription is optional
+            'status' => 'Pending',
         ]);
 
         // Check if the appointment was successfully created
@@ -91,11 +92,14 @@ class AppointmentController extends Controller
     
 
     // Route for rescheduling appointment
-    public function reschedule(Appointment $appointment)
+    public function reschedule($appointmentId)
     {
+        $appointment = Appointment::with('dentist.user')->findOrFail($appointmentId);
+
         // Retrieve existing appointment times for the selected dentist
         $existingAppointments = Appointment::where('dentistID', $appointment->dentistID)
-            ->where('appointmentID', '!=', $appointment->id) // Exclude current appointment
+            ->where('appointmentID', '!=', $appointmentId) // Exclude current appointment
+            ->whereDate('appointmentDate', '>=', now())
             ->pluck('appointmentTime')
             ->toArray();
 
@@ -111,8 +115,6 @@ class AppointmentController extends Controller
         // Remove existing appointment times from the list of available time slots
         $availableTimeSlots = array_diff($allTimeSlots, $existingAppointments);
 
-        $appointment->load('dentist.user'); // Load the dentist and user relationships
-
         // Pass the appointment and available time slots to the view
         return view('User.reschedule', [
             'appointment' => $appointment,
@@ -123,39 +125,24 @@ class AppointmentController extends Controller
 
     public function update(Request $request, $appointmentId)
     {
-        // Find the appointment with the given appointmentId
-        $appointment = Appointment::findOrFail($appointmentId);
-
-        // Validate the request data
+        // Validate the request
         $request->validate([
-            'userID' => 'required|exists:users,userID',
-            'dentistID' => 'required|exists:dentists,dentistID',
-            'selectedDate' => 'required|date|after_or_equal:today',
-            'selectedTime' => 'required|array', // Assuming selectedTime is an array of time slots
-            'medicalPrescription' => 'nullable|string', // Optional field for medical prescription
+            'selectedDate' => 'required|date|after:today',
+            'selectedTime' => 'required',
         ]);
 
-        // Check if the new date and time are available
-        // You should implement this logic based on your requirements
-        $isAvailable = true; // Placeholder for availability check
+        // Find the appointment
+        $appointment = Appointment::findOrFail($appointmentId);
 
-        if ($isAvailable) {
-            // Update the appointment
-            $appointment->update([
-                'userID' => $request->userID,
-                'dentistID' => $request->dentistID,
-                'appointmentDate' => $request->selectedDate,
-                'appointmentTime' => $request->selectedTime, 
-                'medicalPrescription' => $request->medicalPrescription,
-            ]);
+        // Update the appointment details
+        $appointment->appointmentDate = Carbon::parse($request->input('selectedDate'));
+        $appointment->appointmentTime = $request->input('selectedTime');
 
-            // Redirect back to the appointment page with a success message
-            return redirect()->route('user.myAppointment', ['appointmentId' => $appointment->appointmentID])
-                             ->with('success', 'Appointment rescheduled successfully.');
-        } else {
-            // Display an error message if the new date and time are not available
-            return redirect()->back()->with('error', 'The selected date and time are not available. Please choose another date and time.');
-        }
+        // Save the updated appointment
+        $appointment->save();
+
+        // Redirect with a success message
+        return redirect()->route('user.myAppointment')->with('success', 'Appointment rescheduled successfully.');
     }
 
 
