@@ -16,23 +16,24 @@ use Illuminate\Support\Facades\Auth;
 //WELCOME
 Route::get('welcome', function () {return view('welcome');})->name('welcome');
 
-Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-//LOGIN - USER
+//LOGIN & LOGOUT 
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'loginPost'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 //LOGIN - DENTIST
-Route::get('/dentistLogin', [DentistLoginController::class, 'login'])->name('dentistLogin');
-Route::post('/dentistLogin', [DentistLoginController::class, 'loginPost'])->name('dentistLogin');
+// Route::get('/dentistLogin', [DentistLoginController::class, 'login'])->name('dentistLogin');
+// Route::post('/dentistLogin', [DentistLoginController::class, 'loginPost'])->name('dentistLogin');
 
-//LOGIN - ADMIN
+//LOGIN & LOGOUT - ADMIN
 Route::get('/adminLogin', [AdminLoginController::class, 'login'])->name('adminLogin');
 Route::post('/adminLogin', [AdminLoginController::class, 'loginPost'])->name('adminLogin');
+Route::post('/logoutAdmin', [AdminLoginController::class, 'logout'])->name('logoutAdmin');
 
 //REGISTER
 Route::get('/register', 'App\Http\Controllers\Auth\RegisterController@showRegistrationForm')->name('register');
@@ -74,6 +75,7 @@ Route::put('/dentist/appointment/update/{id}', [DentistController::class, 'updat
 
 //MEDICAL RECORDS
 Route::get('/dentist/medicalRecords', [DentistController::class, 'record'])->name('dentist.medicalRecords');
+Route::delete('/appointments/{appointmentID}/delete', [DentistController::class, 'destroy'])->name('appointments.destroy');
 
 // DENTIST PROFILE 
 Route::get('/profile', [DentistController::class, 'showProfile'])->middleware('auth')->name('dentist.dentistProfile');
@@ -86,6 +88,7 @@ Route::get('/admin/index', [AdminController::class, 'index'])->name('admin.index
 //ADMIN: DOCTOR
 Route::get('/admin/doctor', [AdminController::class, 'dentistList'])->name('admin.doctor');
 Route::put('/admin/doctor/update/{id}', [AdminController::class, 'update'])->name('admin.doctor.update');
+
 
 //ADMIN: PATIENT
 Route::get('/admin/patient', [AdminController::class, 'patientList'])->name('admin.patient');

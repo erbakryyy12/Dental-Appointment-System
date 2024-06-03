@@ -58,6 +58,7 @@ class AdminController extends Controller
         ]);
     }
 
+    //update dentist speciality
     public function update(Request $request, $id) 
     {
         // Validate the request data
@@ -84,6 +85,8 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Failed to update dentist speciality. Please try again.');
         }
     }
+
+    
 
     //patient list
     public function patientList()

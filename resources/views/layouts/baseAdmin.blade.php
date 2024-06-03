@@ -58,15 +58,14 @@
                 <img src="/img/dental logo.png" >
             </a>
             <div class="sidebar-content">
-                
+           
                 <div class="sidebar-user">
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                    <form id="logout-form" action="{{ route('logoutAdmin') }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-outline-primary justify-content-center" style="background-color: #FFF171;border-color: #FFF171; color: #000;" >{{ __('Logout') }}</button>
                     </form>
                 </div>
-                
-                    
+                      
                 <ul class="sidebar-nav">
                     <li class="sidebar-item">
 					<a class="sidebar-link" href="{{ route('admin.index') }}"> 

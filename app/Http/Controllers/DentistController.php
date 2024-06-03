@@ -24,16 +24,15 @@ class DentistController extends Controller
         // Retrieve the authenticated dentist's ID
         $dentistID = Auth::user()->dentist->dentistID;
 
-        // Retrieve appointments for the current week
+        // Retrieve appointments for the current week with Pending status
         $appointments = Appointment::where('dentistID', $dentistID)
             ->whereBetween('appointmentDate', [$startOfWeek, $endOfWeek])
             ->where('status', 'Pending') // Only include appointments with Pending status
             ->orderBy('appointmentDate')
             ->orderBy('appointmentTime')
-            
             ->get();
 
-            // Retrieve unique patients count
+        // Retrieve unique patients count
         $uniquePatients = Appointment::where('dentistID', $dentistID)
         ->distinct('userID')
         ->count('userID');
@@ -128,6 +127,16 @@ class DentistController extends Controller
 
     }
 
+    //delete the appointment from medical records
+    public function destroy($appointmentID)
+    {
+        $appointment = Appointment::findOrFail($appointmentID);
+        $appointment->delete();
+
+        return redirect()->back()->with('success', 'Appointment deleted successfully.');
+    }
+
+    
     // Show user profile
     public function showProfile()
     {

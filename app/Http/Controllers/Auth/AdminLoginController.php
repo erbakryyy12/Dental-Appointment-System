@@ -33,6 +33,17 @@ class AdminLoginController extends Controller
         return back()->with('error', 'Invalid email or password.');
     }
 
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('adminLogin');
+    }
+
     protected function guard()
     {
         return Auth::guard('admin');

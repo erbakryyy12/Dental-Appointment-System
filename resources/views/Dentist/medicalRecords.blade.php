@@ -46,6 +46,7 @@
                                     <th>Patient Name</th>
                                     <th>Appointment Date</th>
                                     <th>Time</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                             </tr>
                         </thead>
@@ -56,15 +57,28 @@
                                     <td>{{ $appointment->user->userName }}</td>
                                     <td>{{ $appointment->appointmentDate }}</td>
                                     <td>{{ $appointment->appointmentTime }}</td>
+                                    <td>
+                                        @if($appointment->status == 'Pending')
+                                            <span class="badge rounded-pill bg-primary status-badge">{{ $appointment->status }}</span>
+                                        @elseif($appointment->status == 'Completed')
+                                            <span class="badge rounded-pill bg-success status-badge">{{ $appointment->status }}</span>
+                                        @elseif($appointment->status == 'Cancelled')
+                                            <span class="badge rounded-pill bg-warning status-badge">{{ $appointment->status }}</span>
+                                        @endif
+                                    </td>
                                     <td class="table-action">
                                         <!-- View -->
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#view-{{ $appointment->appointmentID }}">
                                             <i class="align-middle fas fa-fw fa-eye"></i> 
                                         </a>
                                         <!-- Delete -->
-                                        <a href="/medicalRecords/{{$appointment->appointmentID}}/delete" class="delete-link">
-                                            <i class="align-middle fas fa-fw fa-trash"></i>
-                                        </a>
+                                        <form action="{{ route('appointments.destroy', $appointment->appointmentID) }}" method="POST" class="delete-form" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-link p-0 m-0 align-baseline" onclick="return confirm('Are you sure you want to delete this appointment?')">
+                                                <i class="align-middle fas fa-fw fa-trash"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
 

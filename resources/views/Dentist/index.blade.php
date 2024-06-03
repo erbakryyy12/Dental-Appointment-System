@@ -78,6 +78,7 @@
                                 <th>Patient Name</th>
                                 <th>Schedule Date</th>
                                 <th>Time</th>
+                                <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,6 +88,7 @@
                                 <td>{{ $appointment->user->userName }}</td>
                                 <td>{{ $appointment->appointmentDate }}</td>
                                 <td>{{ $appointment->appointmentTime }}</td>
+                                <td><span class="badge rounded-pill bg-primary status-badge">{{ $appointment->status }}</td>
                             </tr>
                         @endforeach
                      </tbody>

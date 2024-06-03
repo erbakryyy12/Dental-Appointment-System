@@ -23,19 +23,28 @@ class LoginController extends Controller
 public function loginPost(Request $request)
 {
 
-    
-    $credentials = [ 
-        'userEmail' => $request->userEmail, 
-        'password' => $request->password, 
-    ];
+    $request->validate([
+        'userEmail' => 'required|email',
+        'password' => 'required',
+    ]);
 
-    // Attempt authentication
+    $credentials = $request->only('userEmail', 'password');
+
     if (Auth::attempt($credentials)) {
-        return redirect('/user/dashboard')->with('success', 'Successfully logged in.');
+        $user = Auth::user();
+
+        if ($user->userRole == 'User') {
+            return redirect()->route('user.dashboard');
+        } elseif ($user->userRole == 'Dentist') {
+            return redirect()->route('dentist.index');
+        } else {
+            Auth::logout();
+            return redirect()->route('login')->withErrors(['userRole' => 'Unauthorized user.']);
+        }
     }
 
-    // Authentication failed, redirect back with error message
     return back()->with('error', 'Invalid email or password.');
+
 }
 
 

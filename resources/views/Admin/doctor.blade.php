@@ -65,10 +65,6 @@
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#update-{{ $dentist->dentistID }}">
                                         <i class="align-middle fas fa-fw fa-pen"></i>
                                     </a>  
-                                    <!-- Delete -->
-                                    <a href="/doctor/{{$dentist->dentistID}}/delete" class="delete-link">
-                                        <i class="align-middle fas fa-fw fa-trash"></i>
-                                    </a>
                                 </td>
                             </tr>
 
