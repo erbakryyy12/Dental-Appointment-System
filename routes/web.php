@@ -26,9 +26,6 @@ Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'loginPost'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-//LOGIN - DENTIST
-// Route::get('/dentistLogin', [DentistLoginController::class, 'login'])->name('dentistLogin');
-// Route::post('/dentistLogin', [DentistLoginController::class, 'loginPost'])->name('dentistLogin');
 
 //LOGIN & LOGOUT - ADMIN
 Route::get('/adminLogin', [AdminLoginController::class, 'login'])->name('adminLogin');
@@ -46,6 +43,8 @@ Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dash
 //APPOINTMENT 
 Route::get('/user/appointment/{dentistId}', [AppointmentController::class, 'makeAppointment'])->name('user.appointment');
 Route::post('/appointment/store', [AppointmentController::class, 'store'])->name('appointment.store');
+Route::post('/appointments/booked-time-slots', [AppointmentController::class, 'getBookedTimeSlots'])->name('appointments.bookedTimeSlots');
+
 
 
 //MY APPOINTMENT

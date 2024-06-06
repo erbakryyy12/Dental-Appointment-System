@@ -20,8 +20,6 @@ class UserController extends Controller
         
         // Pass the $dentists variable to the view
         return view('user.index', ['dentists' => $dentists]);
-
-        
         
     }
 

@@ -20,34 +20,40 @@ class AppointmentController extends Controller
         return view('User.myAppointment', ['appointments' => $appointments]);
     }
 
+   
     // Controller method to make appointment
     public function makeAppointment($dentistId)
     {
         // Retrieve the selected dentist from the database along with their associated user
         $selectedDentist = Dentist::with('user')->findOrFail($dentistId);
-     
-        // Retrieve existing appointment times for the selected dentist
-        $existingAppointments = Appointment::where('dentistID', $dentistId)->pluck('appointmentTime')->toArray();
+    
+        // Fetch booked time slots for the selected dentist
+        $bookedTimeSlots = Appointment::where('dentistID', $dentistId)
+            ->whereDate('appointmentDate', now()) // Assuming we want to check for the current date
+            ->pluck('appointmentTime')
+            ->toArray();
 
         // Generate an array of all time slots for the day (assuming appointments start at 9:00 AM and end at 5:00 PM with 30-minute intervals)
         $allTimeSlots = [];
         $startTime = Carbon::parse('09:00');
         $endTime = Carbon::parse('17:00'); // Adjusted end time to 5:00 PM
         while ($startTime < $endTime) {
-            $allTimeSlots[] = $startTime->format('H:i');
+            $timeSlot = $startTime->format('H:i');
+            // Check if the time slot is available
+            if (!in_array($timeSlot, $bookedTimeSlots)) {
+                $allTimeSlots[] = $timeSlot;
+            }
             $startTime->addMinutes(60); // Assuming 60-minute intervals
         }
-
-        // Remove existing appointment times from the list of available time slots
-        $availableTimeSlots = array_diff($allTimeSlots, $existingAppointments);
 
         // Pass the selected dentist and available time slots to the view
         return view('User.appointment', [
             'selectedDentist' => $selectedDentist,
-            'dentistID' => $dentistId, // Pass the dentistID to the view
-            'availableTimeSlots' => $availableTimeSlots
+            'dentistID' => $dentistId,
+            'availableTimeSlots' => $allTimeSlots // Define and pass availableTimeSlots
         ]);
     }
+
 
     public function store(Request $request)
     {
@@ -78,6 +84,20 @@ class AppointmentController extends Controller
             return back()->withInput()->withErrors('Failed to create appointment.');
         }
     }
+
+    public function getBookedTimeSlots(Request $request)
+    {
+        $dentistID = $request->input('dentistID');
+        $appointmentDate = $request->input('appointmentDate');
+
+        $bookedTimeSlots = Appointment::where('dentistID', $dentistID)
+            ->where('appointmentDate', $appointmentDate)
+            ->pluck('appointmentTime')
+            ->toArray();
+
+        return response()->json($bookedTimeSlots);
+    }
+
 
     public function myAppointment()
     {

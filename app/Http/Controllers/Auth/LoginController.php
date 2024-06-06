@@ -47,9 +47,6 @@ public function loginPost(Request $request)
 
 }
 
-
-
-
     public function logout(Request $request)
     {
         Auth::logout();

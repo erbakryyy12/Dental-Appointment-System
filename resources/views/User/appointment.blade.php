@@ -14,6 +14,16 @@
     .header-title {
         color: black; /* Set the color of the header title to black */
     }
+    .appointmentTime.disabled 
+    {
+        background-color: red !important;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+    .appointmentTime.selected 
+    {
+        background-color: blue !important;
+    }
 </style>
 
     <div class="container-fluid">
@@ -82,13 +92,25 @@
 
                 // Your FullCalendar configuration
                 selectable: true, // Enable date selection
+
+                validRange: {
+                    start: new Date() // Disable past dates
+                },
+
+
                 select: function(info) 
                 {
                     selectedDate = info.startStr; // Update the selected date
 
+                    // Set the selected date to the hidden input field
+                    document.getElementById('selectedDate').value = selectedDate;   
+
                     // Display confirmation message with selected date
                     var selectedDate = info.startStr;
                     alert('You have selected ' + selectedDate);
+
+                    // Fetch booked time slots for the selected date
+                    fetchBookedTimeSlots({{ $dentistID }}, selectedDate);
                     
                     // Highlight the selected date
                     calendar.removeAllEventSources(); // Remove existing events
@@ -99,46 +121,91 @@
                             color: 'blue'
                         }
                     ]);
-
-                    // Set the selected date to the hidden input field
-                    document.getElementById('selectedDate').value = selectedDate;   
-
-                },
-                unselect: function(info) 
-                {
-                    selectedDate = ''; // Clear the selected date
-                
+                   
                 }
+                
             });
 
             calendar.render();
 
-            // Function to update the availability status of the dates
-            function updateDateAvailability() {
-                // Your existing code for updating date availability
+            //function to disable the time slot if already chosen
+            function fetchBookedTimeSlots(dentistID, appointmentDate) 
+            {
+                fetch('{{ route('appointments.bookedTimeSlots') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ dentistID: dentistID, appointmentDate: appointmentDate })
+                })
+                .then(response => response.json())
+                .then(bookedTimeSlots => {
+                    updateAvailableTimeSlots(bookedTimeSlots);
+                });
+            }
+
+            function updateAvailableTimeSlots(bookedTimeSlots) {
+                var appointmentTimeButtons = document.querySelectorAll('.appointmentTime');
+                appointmentTimeButtons.forEach(function(button) {
+                    var timeSlot = button.getAttribute('data-time');
+                    if (bookedTimeSlots.includes(timeSlot)) {
+                        button.classList.add('disabled');
+                        button.classList.remove('available');
+                        button.disabled = true; // Disable the button
+                    } else {
+                        button.classList.remove('disabled');
+                        button.classList.add('available');
+                        button.disabled = false; // Enable the button
+                    }
+                });
             }
 
             // Attach click event listeners to time slots
             var appointmentTimeButtons = document.querySelectorAll('.appointmentTime');
             appointmentTimeButtons.forEach(function(button) {
                 button.addEventListener('click', function() {
-                    appointmentTimeButtons.forEach(function(slot) {
-                        slot.style.backgroundColor = '';
-                    });
-                    this.classList.toggle('available');
-                    updateDateAvailability();
-                    if (this.classList.contains('available')) {
-                        this.style.backgroundColor = 'blue';
+                    // Check if the button is disabled (i.e., already booked)
+                    if (!this.classList.contains('disabled')) {
+                        appointmentTimeButtons.forEach(function(slot) {
+                            slot.classList.remove('selected');
+                        });
+                        this.classList.add('selected');
+                        var selectedTime = this.getAttribute('data-time');
+                        document.getElementById('selectedTime').value = selectedTime;
                     }
-
-                    // Get the data-time attribute of the clicked time slot
-                    var selectedTime = this.getAttribute('data-time');
-
-                    // Set the selected time to the hidden input field
-                    document.getElementById('selectedTime').value = selectedTime;
                 });
             });
 
+
+            var appointmentTimeButtons = document.querySelectorAll('.appointmentTime');
+
+            appointmentTimeButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    if (!this.classList.contains('disabled')) {
+                        appointmentTimeButtons.forEach(function(slot) {
+                            slot.classList.remove('selected');
+                        });
+                        this.classList.add('selected');
+
+                        var selectedTime = this.getAttribute('data-time');
+                        document.getElementById('selectedTime').value = selectedTime;
+                    }
+                });
+            });
+
+            // Form submission handler
+            var appointmentForm = document.querySelector('form');
+            appointmentForm.addEventListener('submit', function(event) {
+                var selectedTime = document.getElementById('selectedTime').value;
+                var selectedTimeButton = document.querySelector('.appointmentTime[data-time="' + selectedTime + '"]');
+                
+                // Check if the selected time slot is disabled (i.e., already booked)
+                if (selectedTimeButton && selectedTimeButton.classList.contains('disabled')) {
+                    event.preventDefault(); // Prevent form submission
+                    alert('This time slot is already booked. Please choose another time.');
+                }
+            });
 
             
         });

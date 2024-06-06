@@ -26,6 +26,17 @@
                     <h3 class="card-title mb-0">Dentist Profile</h3>
                 </div>
                 <div class="card-body">
+                    <!-- Flash Messages -->
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @elseif (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                    
                      <!-- Profile Edit Form -->
                      <form method="POST" action="{{ route('dentist.profile.update') }}" >
                         @csrf

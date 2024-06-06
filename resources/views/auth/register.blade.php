@@ -166,7 +166,7 @@
 
                     <div class="row justify-content-center mb-0">
                         <div class="col-md-6 text-center">
-                            <a class="btn btn-link" href="{{ route('welcome') }}">
+                            <a class="btn btn-link" href="{{ route('login') }}">
                                 {{ __('Already has an account') }}
                             </a>
                         </div>

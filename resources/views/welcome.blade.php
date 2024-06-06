@@ -80,14 +80,11 @@
                                 @auth
                                     
                                 @else
-                                    <div class="relative">
-                                        <button class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-black dark:hover:text-blue/80 dark:focus-visible:ring-white" onclick="toggleDropdown()">
-                                            Log in
-                                        </button>
-                                        <div id="loginDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden">
-                                            <a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">User</a>
-                                        </div>
-                                    </div>
+                                    
+                                        <a href="{{ route('login') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-black dark:hover:text-blue/80 dark:focus-visible:ring-white">
+                                            Login
+                                        </a>
+                                    
                                     @if (Route::has('register'))
                                         <a href="{{ route('register') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-black dark:hover:text-blue/80 dark:focus-visible:ring-white">
                                             Register
