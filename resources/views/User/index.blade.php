@@ -44,7 +44,11 @@
                     @foreach($dentists as $dentist)
                     <div class="col-md-4 mb-4">
                         <div class="card "> 
-                            <img src="{{ Storage::url(auth()->user()->dentist->dentistImage) }}" class="card-img-top" alt="Dentist Image">
+                            @if($dentist->dentistImage)
+                                <img src="{{ Storage::url($dentist->dentistImage) }}" class="card-img-top" alt="Dentist Image">
+                            @else
+                                <img src="/path/to/default/image.jpg" class="card-img-top" alt="Default Image">
+                            @endif
                             <div class="card-body">
                                 <h5 class="card-title">DR.{{ optional($dentist->user)->userName }}</h5>
                                 <p class="card-text">{{ $dentist->dentistSpeciality }}</p>

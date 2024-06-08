@@ -23,7 +23,9 @@ class AdminController extends Controller
         $endOfWeek = $currentDate->endOfWeek()->format('Y-m-d');
 
         // Retrieve all appointments for the current week
-        $appointments = Appointment::whereBetween('appointmentDate', [$startOfWeek, $endOfWeek])->get();
+        $appointments = Appointment::whereBetween('appointmentDate', [$startOfWeek, $endOfWeek])
+        ->where('status', 'Pending')  
+        ->get();
 
         // Retrieve number of dentist
         $numOfDentist = Dentist::count();
@@ -33,10 +35,12 @@ class AdminController extends Controller
 
         // Retrieve number of today's appointments
         $todayAppointments = Appointment::whereDate('appointmentDate', $currentDate->format('Y-m-d'))
-                            ->count();
+        ->where('status', 'Pending')                    
+        ->count();
 
         // Retrieve number of all appointments
-        $allAppointments = Appointment::count();
+        $allAppointments = Appointment::where('status', '!=', 'Cancelled')
+        ->count();
 
         // Pass the appointments to the view
         return view('admin.index', [
@@ -51,7 +55,8 @@ class AdminController extends Controller
     //dentist list
     public function dentistList(Request $request)
     {
-        $dentists = Dentist::with('user')->get();
+        $dentists = Dentist::with('user')
+        ->get();
 
         return view('admin.doctor', [
             'dentists' => $dentists,
@@ -92,7 +97,9 @@ class AdminController extends Controller
     public function patientList()
     {
         // Retrieve appointments with related user information
-        $appointments = Appointment::with('user')->get();
+        $appointments = Appointment::with('user')
+        ->where('status', '!=', 'Cancelled')
+        ->get();
 
         // Pass the data to the view
         return view('admin.patient', [
@@ -110,19 +117,27 @@ class AdminController extends Controller
         $numOfDentist = Dentist::count();
 
         // Retrieve number of patient
-        $numOfPatient = User::where('userRole', 'user')->count();
+        $numOfPatient = User::where('userRole', 'user')
+        ->count();
 
         // Retrieve number of today's appointments
-        $todayAppointments = Appointment::whereDate('appointmentDate', $currentDate->format('Y-m-d'))->count();
+        $todayAppointments = Appointment::whereDate('appointmentDate', $currentDate->format('Y-m-d'))
+        ->where('status', 'Pending')
+        ->count();
 
         // Retrieve number of all appointments
-        $allAppointments = Appointment::count();
+        $allAppointments = Appointment::where('status', '!=', 'Cancelled')
+        ->count();
 
         // Retrieve number of this week's appointments
-        $weeklyAppointments = Appointment::whereBetween('appointmentDate', [now()->startOfWeek(), now()->endOfWeek()])->count();
+        $weeklyAppointments = Appointment::whereBetween('appointmentDate', [now()->startOfWeek(), now()->endOfWeek()])
+        ->where('status', '!=', 'Cancelled')
+        ->count();
 
         // Retrieve number of this month's appointments
-        $monthlyAppointments = Appointment::whereMonth('appointmentDate', now()->month)->count();
+        $monthlyAppointments = Appointment::whereMonth('appointmentDate', now()->month)
+        ->where('status', '!=', 'Cancelled')
+        ->count();
 
         // Pass the data to the view
         return view('admin.report', [

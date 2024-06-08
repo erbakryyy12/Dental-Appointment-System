@@ -44,7 +44,11 @@
                         <!-- Dentist Card -->
                         <div class="col-md-4 mb-4">
                             <div class="card">
-                                <img src="/img/dentist female.jpeg" class="card-img-top " alt="Dentist Image">
+                                @if($selectedDentist->dentistImage)
+                                    <img src="{{ Storage::url($selectedDentist->dentistImage) }}" class="card-img-top" alt="Dentist Image">
+                                @else
+                                    <img src="/path/to/default/image.jpg" class="card-img-top" alt="Default Image">
+                                @endif
                                 <div class="card-body">
                                     <h5 class="card-title">DR.{{ $selectedDentist->user->userName }}</h5>
                                     <p class="card-text">{{ $selectedDentist->dentistSpeciality }}</p>

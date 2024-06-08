@@ -72,7 +72,12 @@
                     
                         @foreach ($upcomingAppointment as $appointment)
                         <div class="appointment-list" data-appointment-id="{{ $appointment->id }}">
-                                <img src="/img/dentist female.jpeg" class="card-img-top img-fluid" alt="Dentist Image" style="width: 100px; height: 100px;">
+                            @if($appointment->dentist->dentistImage)
+                                <img src="{{ Storage::url($appointment->dentist->dentistImage) }}" class="card-img-top img-fluid" alt="Dentist Image" style="width: 100px; height: 100px;">
+                            @else
+                                <img src="/path/to/default/image.jpg" class="card-img-top img-fluid" alt="Default Image"style="width: 100px; height: 100px;">
+                            @endif
+                                
                                 <div class="appointment-details">
                                 <span class="badge rounded-pill bg-primary status-badge">{{ $appointment->status }}</span> 
                                     <h5>Dentist: DR. {{ $appointment->dentist->user->userName }} </h5>
@@ -101,7 +106,11 @@
                         @foreach ($completedAppointment as $appointment)
                         <div class="appointment-list" data-appointment-id="{{ $appointment->id }}">
                             <span class="badge rounded-pill bg-success status-badge">{{ $appointment->status }}</span>
-                            <img src="/img/dentist female.jpeg" class="card-img-top img-fluid" alt="Dentist Image" style="width: 100px; height: 100px;">
+                            @if($appointment->dentist->dentistImage)
+                                <img src="{{ Storage::url($appointment->dentist->dentistImage) }}" class="card-img-top img-fluid" alt="Dentist Image" style="width: 100px; height: 100px;">
+                            @else
+                                <img src="/path/to/default/image.jpg" class="card-img-top img-fluid" alt="Default Image"style="width: 100px; height: 100px;">
+                            @endif
                             <div class="appointment-details">
                                 <h5>Dentist: DR. {{ $appointment->dentist->user->userName }}</h5>
                                 <p>Date: {{ $appointment->appointmentDate }}</p>
@@ -118,7 +127,11 @@
                         @foreach ($cancelledAppointments as $appointment)
                         <div class="appointment-list" data-appointment-id="{{ $appointment->id }}">
                             <span class="badge rounded-pill bg-warning status-badge">{{ $appointment->status }}</span>
-                            <img src="/img/dentist female.jpeg" class="card-img-top img-fluid" alt="Dentist Image" style="width: 100px; height: 100px;">
+                            @if($appointment->dentist->dentistImage)
+                                <img src="{{ Storage::url($appointment->dentist->dentistImage) }}" class="card-img-top img-fluid" alt="Dentist Image" style="width: 100px; height: 100px;">
+                            @else
+                                <img src="/path/to/default/image.jpg" class="card-img-top img-fluid" alt="Default Image"style="width: 100px; height: 100px;">
+                            @endif
                             <div class="appointment-details">
                                 <h5>Dentist: DR. {{ $appointment->dentist->user->userName }}</h5>
                                 <p>Date: {{ $appointment->appointmentDate }}</p>

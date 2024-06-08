@@ -21,6 +21,7 @@
                 <h1 class="header-title">
                     Reschedule Appointment
                 </h1>
+                
             </div>
         </div>
     </div>
@@ -52,6 +53,7 @@
                             <input type="hidden" id="selectedTime" name="selectedTime" value="{{ old('selectedTime', $appointment->appointmentTime) }}">
                             <br>
                             <button type="submit" name="confirmAppointment" value="1" class="btn btn-primary" style="background-color: #B2EEF1;border-color: #B2EEF1;color: #000;">Confirm Reschedule</button>
+                            <a href="{{ route('user.myAppointment') }}" class="btn btn-secondary" style="background-color: #FF5050;border-color: #FF5050;color: #000;">Back</a>
                         </form>
                     </div>
                 </div>
