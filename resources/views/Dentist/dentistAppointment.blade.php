@@ -61,15 +61,15 @@
                                 <td class="table-action">
                                      <!-- View -->
                                      <a href="#" data-bs-toggle="modal" data-bs-target="#view-{{ $appointment->appointmentID }}">
-                                        <i class="align-middle fas fa-fw fa-eye"></i> 
+                                        <i class="align-middle fas fa-fw fa-eye" title="View Appointment"></i> 
                                     </a>
                                     <!--Edit-->
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#update-{{ $appointment->appointmentID }}">
-                                        <i class="align-middle fas fa-fw fa-pen"></i>
+                                        <i class="align-middle fas fa-fw fa-pen" title="Edit Appointment"></i>
                                     </a>    
                                     <!-- Mark Complete -->
                                     <a href="{{ route('dentist.appointment.complete', $appointment->appointmentID) }}" onclick="return confirm('Are you sure you want to mark this appointment as complete?')">
-                                        <i class="align-middle fas fa-fw fa-check"></i>
+                                        <i class="align-middle fas fa-fw fa-check" title="Mark Appointment Complete"></i>
                                     </a>  
                                 </td>
                             </tr>

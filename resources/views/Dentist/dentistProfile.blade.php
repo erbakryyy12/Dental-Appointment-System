@@ -38,8 +38,13 @@
                     @endif
                     
                      <!-- Profile Edit Form -->
-                     <form method="POST" action="{{ route('dentist.profile.update') }}" >
+                     <form method="POST" action="{{ route('dentist.profile.update') }}" enctype="multipart/form-data">
                         @csrf
+
+                        <div class="form-group">
+                            <label for="dentistImage">Upload Image</label>
+                            <input type="file" class="form-control" id="dentistImage" name="dentistImage">
+                        </div>
 
                         <div class="mb-3">
                             <label for="userName" class="form-label">Full Name:</label>

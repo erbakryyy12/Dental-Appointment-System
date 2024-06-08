@@ -69,14 +69,14 @@
                                     <td class="table-action">
                                         <!-- View -->
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#view-{{ $appointment->appointmentID }}">
-                                            <i class="align-middle fas fa-fw fa-eye"></i> 
+                                            <i class="align-middle fas fa-fw fa-eye" title="View Record"></i> 
                                         </a>
                                         <!-- Delete -->
                                         <form action="{{ route('appointments.destroy', $appointment->appointmentID) }}" method="POST" class="delete-form" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-link p-0 m-0 align-baseline" onclick="return confirm('Are you sure you want to delete this appointment?')">
-                                                <i class="align-middle fas fa-fw fa-trash"></i>
+                                                <i class="align-middle fas fa-fw fa-trash" title="Delete Record"></i>
                                             </button>
                                         </form>
                                     </td>

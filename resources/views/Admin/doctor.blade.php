@@ -59,11 +59,11 @@
                                     
                                     <!-- View -->
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#view-{{ $dentist->dentistID }}">
-                                        <i class="align-middle fas fa-fw fa-eye"></i> 
+                                        <i class="align-middle fas fa-fw fa-eye" title="View Dentist"></i> 
                                     </a>
                                     <!--Edit-->
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#update-{{ $dentist->dentistID }}">
-                                        <i class="align-middle fas fa-fw fa-pen"></i>
+                                        <i class="align-middle fas fa-fw fa-pen" title="Update Dentist Speciality"></i>
                                     </a>  
                                 </td>
                             </tr>

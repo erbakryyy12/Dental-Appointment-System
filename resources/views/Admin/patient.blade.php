@@ -59,7 +59,7 @@
                                     
                                     <!-- View -->
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#view-{{ $appointment->appointmentID }}">
-                                        <i class="align-middle fas fa-fw fa-eye"></i> 
+                                        <i class="align-middle fas fa-fw fa-eye" title="View Patient Details"></i> 
                                     </a>
                                 </td>
                             </tr>

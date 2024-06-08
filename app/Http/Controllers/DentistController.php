@@ -39,11 +39,13 @@ class DentistController extends Controller
 
         // Retrieve total appointments count
         $myAppointments = Appointment::where('dentistID', $dentistID)
+            ->where('status', '!=', 'Cancelled')
             ->count();
 
         // Retrieve today's appointments count
         $todayAppointments = Appointment::where('dentistID', $dentistID)
             ->whereDate('appointmentDate', $currentDate->format('Y-m-d'))
+            ->where('status', 'Pending')
             ->count();
 
         // Pass data to the view
@@ -117,7 +119,9 @@ class DentistController extends Controller
         $dentistID = Auth::user()->dentist->dentistID;
 
         // Retrieve all appointments for the authenticated dentist
-        $appointments = Appointment::where('dentistID', $dentistID)->get();
+        $appointments = Appointment::where('dentistID', $dentistID)
+        ->where('status', 'Completed')
+        ->get();
 
         // Pass the appointments to the view
         return view('dentist.medicalRecords', [
@@ -163,11 +167,12 @@ class DentistController extends Controller
                 'userIC' => 'required|string|max:255',
                 'userEmail' => 'required|email|max:255',
                 'userPhone' => 'required|string|max:255',
+                'dentistImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-
+    
             // Retrieve the authenticated user
             $user = auth()->user();
-
+    
             // Check if the user exists
             if ($user) {
                 // Update user data with the new values from the form
@@ -175,10 +180,27 @@ class DentistController extends Controller
                 $user->userIC = $validatedData['userIC'];
                 $user->userEmail = $validatedData['userEmail'];
                 $user->userPhone = $validatedData['userPhone'];
+    
+                // Check if an image file is uploaded
+                if ($request->hasFile('dentistImage')) {
+                    
+                   // Delete the old image if it exists
+                    if ($user->dentist && $user->dentist->dentistImage) {
+                        Storage::delete($user->dentist->dentistImage);
+                    }
+    
+                    // Store the new image
+                    $imagePath = $request->file('dentistImage')->store('public/dentist_images');
 
+                    // Update the dentist's profile with the new image path
+                    $user->dentist->dentistImage = $imagePath;
+                    $user->dentist->save();
+                }
+    
                 // Save the updated user data
                 $user->save();
-
+                $user->dentist->save();
+    
                 return redirect()->back()->with('success', 'Profile updated successfully!');
             } else {
                 // Handle the case where the user is not found
@@ -190,6 +212,7 @@ class DentistController extends Controller
             return redirect()->route('login')->with('error', 'Please log in to update your profile.');
         }
     }
+    
 
 
 

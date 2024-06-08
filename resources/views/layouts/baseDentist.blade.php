@@ -50,14 +50,21 @@
                 <img src="/img/dental logo.png" >
             </a>
             <div class="sidebar-content">
+                    
                 @if(auth()->check())
                     <div class="sidebar-user">
+                        @if(auth()->user()->dentist && auth()->user()->dentist->dentistImage)
+                            <img src="{{ Storage::url(auth()->user()->dentist->dentistImage) }}" alt="Dentist Image" class="img-thumbnail">
+                        @else
+                            <img src="/path/to/default/image.jpg" alt="Default Image" class="img-thumbnail">
+                        @endif
+                        <br>
                         <span class="d-sm-inline d-none">DR. {{ auth()->user()->userName }}</span><br>
                         <span class="d-sm-inline d-none">{{ auth()->user()->userRole }}</span>
                         <br>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-outline-primary justify-content-center" style="background-color: #B2F1B8;border-color: #B2F1B8;color: #000;" >{{ __('Logout') }}</button>
+                            <button type="submit" class="btn btn-outline-primary justify-content-center" style="background-color: #B2F1B8;border-color: #B2F1B8;color: #000;">{{ __('Logout') }}</button>
                         </form>
                     </div>
                 @endif
